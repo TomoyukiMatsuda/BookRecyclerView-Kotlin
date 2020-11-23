@@ -14,7 +14,6 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fl_activity_main, bookListFragment)
-            .addToBackStack(null)
             .commit()
     }
 }
