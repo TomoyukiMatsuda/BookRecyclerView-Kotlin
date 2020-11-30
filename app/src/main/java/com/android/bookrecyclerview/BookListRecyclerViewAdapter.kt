@@ -3,14 +3,27 @@ package com.android.bookrecyclerview
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.recyclerview.widget.RecyclerView
 
+// コンストラクタにBookクラスを持つMutableListをセット
 class BookListRecyclerViewAdapter (
     private val bookListData: MutableList<Book>)
     : RecyclerView.Adapter<BookListRecyclerViewAdapter.BookListRecyclerViewHolder>() {
+
+    // リスナを格納する変数を定義（lateinitで初期化を遅らせている）
+    private lateinit var listener: OnBookCellClickListener
+
+    // インターフェースを作成
+    interface  OnBookCellClickListener {
+        fun onItemClick(book: Book)
+    }
+
+    // リスナーをセット
+    fun setOnBookCellClickListener(listener: OnBookCellClickListener) {
+        // 定義した変数listenerに実行したい処理を引数で渡す（BookListFragmentで渡している）
+        this.listener = listener
+    }
 
     // 画面部品要素を構成するクラスを定義
     // innerを付けないことでstaticなclassとして定義できる（非staticな内部クラスは非推奨）
@@ -37,6 +50,12 @@ class BookListRecyclerViewAdapter (
         holder.bookName.text = book.name
         holder.bookPrice.text = book.price.toString()
         holder.bookPurchaseDate.text = book.date
+
+        // セルのクリックイベントにリスナをセット
+        holder.itemView.setOnClickListener {
+            // セルがクリックされた時にインターフェースの処理が実行される
+            listener.onItemClick(book)
+        }
     }
 
     // データ件数を返すメソッド
