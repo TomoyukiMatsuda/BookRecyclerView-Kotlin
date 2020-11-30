@@ -10,10 +10,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // BookListFragment表示処理
-        val bookListFragment = BookListFragment()
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.fl_activity_main, bookListFragment)
+            .replace(R.id.fl_activity_main, BookListFragment())
             .commit()
     }
 }
